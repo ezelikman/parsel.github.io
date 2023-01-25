@@ -1,0 +1,252 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <script src="./Parsel_files/jsapi" type="text/javascript"></script>
+    <script type="text/javascript">google.load("jquery", "1.3.2");</script><script type="text/javascript" charset="UTF-8" src="./Parsel_files/jquery.min.js"></script>
+    <style type="text/css">
+      body {
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      font-weight: 300;
+      font-size: 18px;
+      margin: 0 auto;
+      max-width: 1100px;
+      }
+      h1 {
+      font-weight: 400;
+      }
+      .disclaimerbox {
+      background-color: #eee;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      padding: 20px;
+      }
+      video.header-vid, img.header-img {
+      height: 140px;
+      border: 1px solid black;
+      border-radius: 10px;
+      }
+      img.rounded {
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      }
+      a {
+      color: #1367a7;
+      text-decoration: none;
+      }
+      a:hover {
+      color: #208799;
+      }
+      td.dl-link {
+      height: 160px;
+      text-align: center;
+      font-size: 22px;
+      }
+      td {
+      line-height: 130%;
+      }
+      tr.spaceUnder>td {
+      padding-bottom: 10px;
+      }
+      /* Add a more subtle shadow effect */
+      .layered-paper-big, .layered-paper {
+      box-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+      margin: 10px;
+      }
+      /* Remove the unnecessary vendor prefixes */
+      .disclaimerbox, video.header-vid, img.header-img, img.rounded {
+      border-radius: 10px;
+      }
+      .vert-cent {
+      position: relative;
+      top: 50%;
+      transform: translateY(-50%);
+      }
+      hr
+      {
+      border: 0;
+      height: 1.5px;
+      background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
+      }
+    </style>
+    <title>Parsel</title>
+    <meta property="og:title" content="Parsel">
+  </head>
+  <body class="vsc-initialized">
+    <br>
+    <center>
+      <div class="container">
+        <span style="font-size:42px">Parsel 🐍</span><br>
+        <span style="font-size:24px"><em>A 
+        Unified Natural Language Framework for Algorithmic Reasoning</em></span>
+        <br>
+        <br>
+        <span style="font-size:22px"><a href="https://zelikman.me/">Eric Zelikman</a></span>&nbsp;&nbsp;&nbsp;&nbsp;
+        <span style="font-size:22px"><a href="https://q-hwang.github.io/">Qian Huang</a></span>&nbsp;&nbsp;&nbsp;&nbsp;
+        <span style="font-size:22px"><a href="https://gpoesia.com/">Gabriel Poesia</a></span>&nbsp;&nbsp;&nbsp;&nbsp;
+        <span style="font-size:22px"><a href="https://cocolab.stanford.edu/ndg">Noah D. Goodman</a></span>
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <span style="font-size:22px"><a href="https://www.autonomousagents.stanford.edu/">Nick Haber</a></span>
+        <table align="center" width="800px">
+        </table>
+        <table align="center" width="800px">
+          <tbody>
+            <tr>
+            </tr>
+            <tr>
+              <td align="center" colspan="2" style="font-size:22px">
+                <center>Stanford University</center>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <br>
+        <table align="center" width="820px">
+          <tbody>
+            <tr>
+              <td width="700px">
+                <center>
+                  <a href="https://arxiv.org/abs/2212.10561"><img src="./Parsel_files/parsel.gif" width="720px"></a><br>
+                </center>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="3"> <br>
+                <i>Abstract:</i> Despite recent success in large language model (LLM) reasoning, LLMs struggle with hierarchical multi-step reasoning tasks like generating complex programs. In these cases, humans often start with a high-level algorithmic design and implement each part gradually.
+                We introduce Parsel, a framework enabling automatic implementation and validation of complex algorithms with code LLMs, taking hierarchical function descriptions in natural language as input. We show that Parsel can be used across domains requiring hierarchical reasoning, including program synthesis, robotic planning, and theorem proving.
+                We show that LLMs generating Parsel solve more competition-level problems in the APPS dataset, resulting in pass rates that are over 75% higher than prior results from directly sampling AlphaCode and Codex, while often using a smaller sample budget. We also find that LLMs-generated robotic plans in Parsel are more accurate than in comparable previous methods. Lastly, we explore how Parsel addresses LLM limitations and discuss how Parsel may be useful for human programmers.                
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <hr>
+      <center>
+        <h1>Parsel Overview</h1>
+      </center>
+      <table align="center" width="720px">
+        <tbody>
+          <tr>
+            <td width="1200px" colspan="3">
+              <center>
+                <img src="./Parsel_files/fig0.svg" width="720px"><br>
+              </center>
+            </td>
+          </tr>
+          <tr>
+            <td width="600px" colspan="3">
+              <div style="font-size:14px"><i>Parsel overview.</i> A human or LM writes a task decomposition in the Parsel language, which is split into its strongly-connected components (SCC), and then the Parsel compiler uses a code LM and a constraint solver to implement and compose each SCC.</div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <br>
+      <!-- <table align=center width=550px> -->
+      <hr>
+      <center>
+        <h1>Parsel Examples</h1>
+      </center>
+      <table align="center" width="720px">
+        <tbody>
+          <tr>
+            <td width="1200px" colspan="3">
+              <center>
+                <img src="./Parsel_files/fig1.svg" width="720px"><br>
+              </center>
+            </td>
+          </tr>
+          <tr>
+            <td width="600px" colspan="3">
+              <div style="font-size:14px">
+                <i>Parsel compilation examples.</i> Examples using Parsel to compile programs for VirtualHome, Lean, and Python. Note the columns on the generated examples are only there to allow them to fit compactly -- each program implementation is one contiguous solution. Colors for Parsel code on the left are used to indicate 
+                <div style="color:#B6321C;display: inline-block;">constraints</div>
+                and 
+                <div style="color:#2D2F92;display: inline-block;">references</div>
+                . All other Parsel lines shown are definitions.
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <br>
+      <!-- <table align=center width=550px> -->
+      <hr>
+      <center>
+        <h1>Paper</h1>
+      </center>
+      <table align="center" width="800">
+        <tbody>
+          <tr>
+            <td><a href="https://arxiv.org/abs/2212.10561"><img style="width:400px" src="./Parsel_files/paper.svg"></a></td>
+            <td><span style="font-size:14pt">Zelikman, Huang, Poesia, Goodman, Haber (2022)<br><br>
+              Parsel 🐍:  A Unified Natural Language Framework for Algorithmic Reasoning
+              <br><br>
+              <a href="https://arxiv.org/abs/2212.10561">[Paper]</a> &nbsp; &nbsp;
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <br>
+      <br>
+      <hr>
+      <center>
+        <h1>Bibtex</h1>
+      </center>
+      <div style="
+        max-width: 768px;
+        display: grid;
+        justify-items: stretch;
+        grid-template-columns: [screen-start] 8px [page-start kicker-start text-start gutter-start middle-start] repeat(8, 1fr) [text-end page-end gutter-end kicker-end middle-end] 8px [screen-end];
+        ">
+        <div class="bibtex bibtex-wrapper" style="
+          overflow-x: scroll;
+          background-color:#f4f4f4;
+          border-left:2px solid #ccc;
+          padding-left:1rem;
+          padding-top:0.75rem;
+          padding-bottom:0rem;
+          margin-top:1rem;
+          margin-bottom:0.5rem;
+          font-size:0.75rem;
+          grid-column: text;
+          position: inherit;
+          box-sizing: border-box;
+          ">
+          <div class="highlight" style="">
+            <pre style="
+              font-family: Consolas, monaco, monospace;
+              text-align: left;
+              ">			
+@misc{zelikman2022parsel,
+  url = {https://arxiv.org/abs/2212.10561},
+  author = {Zelikman, Eric and Huang, Qian and Poesia, Gabriel and Goodman, Noah D and Haber, Nick},
+  keywords = {Computation and Language (cs.CL); Artificial Intelligence (cs.AI); Machine Learning (cs.LG)},
+  title = {Parsel 🐍: A Unified Natural Language Framework for Algorithmic Reasoning},
+  publisher = {arXiv},
+  year = {2022},
+  copyright = {arXiv.org perpetual, non-exclusive license}
+}
+		</pre>
+          </div>
+        </div>
+      </div>
+      <hr>
+      <br>
+      <table align="center" width="100%">
+        <tbody>
+          <tr>
+            <td>
+              <left>
+                <center>
+                  <h1>Acknowledgements</h1>
+                </center>
+                We thank lots of people, including this <a href="https://zhec.github.io/rhoi/">handy resource</a> and this <a href="https://oshaikh.com/papers/persuasive-orderings">convincing reference</a>.
+              </left>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <br><br>
+    </center>
+  </body>
+</html>
