@@ -44,6 +44,20 @@
         cursor: pointer;
         font-size: 14px;
       }
+      .download-btn {
+        position: fixed;
+        bottom: 70px;
+        right: 20px;
+        display: flex;
+        align-items: center;
+        background-color: #364049ff;
+        color: #d9d9d9;
+        border-radius: 50px;
+        border-width: 0px;
+        padding: 10px 20px;
+        cursor: pointer;
+        font-size: 14px;
+      }
       .icon {
         width: 20px;
         height: 20px;
@@ -141,9 +155,14 @@
       📋 Copy Parsel to Clipboard
     </button>
 
+    <button class="download-btn">
+      ⬇️ Download Parsel File
+    </button>
+
     <script>
       const addBtn = document.querySelector('.add-btn');
       const logBtn = document.querySelector('.log-btn');
+      const downloadBtn = document.querySelector('.download-btn');
       const container = document.querySelector('.container');
       let isDragging = false;
       let currentX;
@@ -158,6 +177,19 @@
         console.log(allToParsel());
         // copy to clipboard
         navigator.clipboard.writeText(allToParsel());
+      });
+
+      downloadBtn.addEventListener("click", function () {
+        const element = document.createElement('a');
+
+        element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(allToParsel()));
+        root_fn = getPathRoot();
+        const name = root_fn.querySelector(".element-name").innerText;
+        element.setAttribute('download', name + ".ss");
+        element.style.display = 'none';
+        document.body.appendChild(element);
+        element.click();
+        document.body.removeChild(element);
       });
 
       addBtn.addEventListener("click", function () {
@@ -446,6 +478,7 @@
       }
       
       function drag(event) {
+        event.preventDefault();
         if (isDragging) {
           // find selected_elem_id element{id}
           // use elem_id
