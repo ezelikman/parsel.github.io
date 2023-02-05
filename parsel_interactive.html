@@ -111,6 +111,16 @@
         display: inline;
         color: #00b4d8;
       }
+      .centered-info {
+        position: fixed;
+        bottom: 0;
+        left: 50%;
+        width: 30%;
+        transform: translate(-50%, 0);
+        text-align: center;
+        color: #d9d9d9;
+        font-size: medium;
+      }
     </style>
   </head>
   <body>
@@ -121,8 +131,12 @@
       Add function
     </button>
 
+    <div class="centered-info">
+      <h4>Shift-click a function to connect it to another function.</h4>
+    </div>
+
     <button class="log-btn">
-      Copy Parsel to Clipboard
+      📋 Copy Parsel to Clipboard
     </button>
 
     <script>
@@ -389,7 +403,10 @@
                 element.classList.remove("highlight");
                 foundOtherElement = true;
                 // draw a connector between the clicked element and the other element
-                drawConnector(element, e.target);
+                // but only if the clicked element is not the other element
+                if (element !== e.target) {
+                  drawConnector(element, e.target);
+                }
               }
             });
             if (!foundOtherElement) {
@@ -516,7 +533,9 @@
           if (path[0] == elem) {
             children.push(path[1]);
             // add the children of the child if they're not already in the children array
-            const childrenOfChild = getChildren(path[1], children);
+            if (!children.includes(path[1])) {
+              const childrenOfChild = getChildren(path[1], children);
+            }
           }
         });
         return children;
@@ -549,14 +568,21 @@
         return indented_text;
       }
 
-      function allToParsel(pathRoot=undefined) {
+      function allToParsel(pathRoot=undefined, definedElements=[]) {
         if (pathRoot == undefined) {
           pathRoot = getPathRoot();
         }
+        definedElements.push(pathRoot);
         const children = getImmediateChildren(pathRoot);
         let parsel_string = toParsel(pathRoot);
         children.forEach(child => {
-          parsel_string += indentText(allToParsel(child), 1);
+          if (!definedElements.includes(child)) {
+            parsel_string += indentText(allToParsel(child, definedElements), 1);
+          } else {
+            // get the name of the child
+            const name = child.querySelector(".element-name").innerText;
+            parsel_string += indentText(name, 1);
+          }
         });
         return parsel_string;
       }
