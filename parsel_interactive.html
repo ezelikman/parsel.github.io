@@ -51,7 +51,7 @@
         background-color: #1b222aff;
         border-radius: 50%;
         text-align: center;
-        margin-right: 10px;
+        margin-right: 2px;
         line-height: 20px;
         font-size: 18px;
         color: #d9d9d9;
@@ -63,6 +63,7 @@
         cursor: pointer;
         background-color: transparent;
         border: none;
+        padding: 1px;
       }
       .element {
         background-color: #323a45ff;
@@ -163,6 +164,7 @@
         const element = document.createElement("div");
         element.classList.add("element");
         element.innerHTML = `
+          <div style="position: absolute; right: 15px; top: 10px; font-size: 25pt;" id="deleteFn">×</div>
           <div>
             <h3 contenteditable class="element-name">fn_name</h3> <div class="editable-indicator">✎</div>
           </div>
@@ -175,7 +177,7 @@
                   <td><div class="element-content" contenteditable style="background-color: #364049;">input name</div></td>
                   <td>
                     <button id="addInputColumn1" class="new-button"><div class="icon">+</div></button>
-                    <!-- <button id="removeInputColumn1" class="new-button"><div class="icon">-</div></button> -->
+                    <button id="removeInputColumn1" class="new-button"><div class="icon">-</div></button>
                   </td>
                 </tr>
               </table>
@@ -188,7 +190,7 @@
                   <td><div class="element-content" contenteditable style="background-color: #364049;">output name</div></td>
                   <td>
                     <button id="addInputColumn2" class="new-button"><div class="icon">+</div></button>
-                    <!-- <button id="removeInputColumn2" class="new-button"><div class="icon">-</div></button> -->
+                    <button id="removeInputColumn2" class="new-button"><div class="icon">-</div></button>
                   </td>
                 </tr>
               </table>
@@ -196,7 +198,7 @@
           <br clear="both">
           </div>
           <button id="addRow" class="new-button"><div class="icon">+</div></button>
-          <!-- <button id="removeRow" class="new-button"><div class="icon">-</div></button> -->
+          <button id="removeRow" class="new-button"><div class="icon">-</div></button>
         `;
         element.setAttribute("id", "element" + elem_id);
         container.appendChild(element);
@@ -250,6 +252,14 @@
         const addRowButton = element.querySelector('#addRow');
         const addColumnButton1 = element.querySelector('#addInputColumn1');
         const addColumnButton2 = element.querySelector('#addInputColumn2');
+        const removeRowButton = element.querySelector('#removeRow');
+        const removeColumnButton1 = element.querySelector('#removeInputColumn1');
+        const removeColumnButton2 = element.querySelector('#removeInputColumn2');
+        const deleteFn = element.querySelector('#deleteFn');
+
+        deleteFn.addEventListener('click', function() {
+          element.remove();
+        });
 
         addRowButton.addEventListener('click', function() {
           const row1 = table1.insertRow(table1.rows.length);
@@ -266,6 +276,15 @@
             cell2.innerHTML = `<div class="element-content" contenteditable style="background-color: #364049;">output value</div>`;
           }
           addRemoveDefaultText();
+        });
+
+        removeRowButton.addEventListener('click', function() {
+          if (table1.rows.length > 1) {
+            table1.deleteRow(table1.rows.length - 1);
+          }
+          if (table2.rows.length > 1) {
+            table2.deleteRow(table2.rows.length - 1);
+          }
         });
 
         addColumnButton1.addEventListener('click', function() {
@@ -290,6 +309,24 @@
             cell_text = "output value";
           }
           addRemoveDefaultText();
+        });
+
+        removeColumnButton1.addEventListener('click', function() {
+          const rows = table1.rows;
+          if (rows[0].cells.length > 2) {
+            for (let i = 0; i < rows.length; i++) {
+              rows[i].deleteCell(rows[i].cells.length - 2);
+            }
+          }
+        });
+
+        removeColumnButton2.addEventListener('click', function() {
+          const rows = table2.rows;
+          if (rows[0].cells.length > 2) {
+            for (let i = 0; i < rows.length; i++) {
+              rows[i].deleteCell(rows[i].cells.length - 2);
+            }
+          }
         });
       });
 
@@ -331,13 +368,7 @@
             x: divB.getBoundingClientRect().x,
             y: divB.getBoundingClientRect().y + divB.getBoundingClientRect().height / 2
           };
-          var dStr =
-            "M" +
-            (posnA.x      ) + "," + (posnA.y) + " " +
-            "C" +
-            (posnA.x + 100) + "," + (posnA.y) + " " +
-            (posnB.x - 100) + "," + (posnB.y) + " " +
-            (posnB.x      ) + "," + (posnB.y);
+          var dStr = `M${posnA.x},${posnA.y} C${posnA.x + 100},${posnA.y} ${posnB.x - 100},${posnB.y} ${posnB.x},${posnB.y}`;
         } else if (divA.getBoundingClientRect().y + divA.getBoundingClientRect().height < divB.getBoundingClientRect().y) {
           var posnA = {
             x: divA.getBoundingClientRect().x + divA.getBoundingClientRect().width / 2,
@@ -347,13 +378,7 @@
             x: divB.getBoundingClientRect().x + divB.getBoundingClientRect().width / 2,
             y: divB.getBoundingClientRect().y
           };
-          var dStr =
-            "M" +
-            (posnA.x      ) + "," + (posnA.y) + " " +
-            "C" +
-            (posnA.x      ) + "," + (posnA.y + 100) + " " +
-            (posnB.x      ) + "," + (posnB.y - 100) + " " +
-            (posnB.x      ) + "," + (posnB.y);
+          var dStr = `M${posnA.x},${posnA.y} C${posnA.x},${posnA.y + 100} ${posnB.x},${posnB.y - 100} ${posnB.x},${posnB.y}`;
         } else if (divA.getBoundingClientRect().y > divB.getBoundingClientRect().y + divB.getBoundingClientRect().height) {
           var posnA = {
             x: divA.getBoundingClientRect().x + divA.getBoundingClientRect().width / 2,
@@ -363,13 +388,7 @@
             x: divB.getBoundingClientRect().x + divB.getBoundingClientRect().width / 2,
             y: divB.getBoundingClientRect().y + divB.getBoundingClientRect().height
           };
-          var dStr =
-            "M" +
-            (posnA.x      ) + "," + (posnA.y) + " " +
-            "C" +
-            (posnA.x      ) + "," + (posnA.y - 100) + " " +
-            (posnB.x      ) + "," + (posnB.y + 100) + " " +
-            (posnB.x      ) + "," + (posnB.y);
+          var dStr = `M${posnA.x},${posnA.y} C${posnA.x},${posnA.y - 100} ${posnB.x},${posnB.y + 100} ${posnB.x},${posnB.y}`;
         } else {
           var posnA = {
             x: divA.getBoundingClientRect().x,
@@ -379,13 +398,7 @@
             x: divB.getBoundingClientRect().x + divB.getBoundingClientRect().width,
             y: divB.getBoundingClientRect().y + divB.getBoundingClientRect().height / 2
           };
-          var dStr =
-            "M" +
-            (posnA.x      ) + "," + (posnA.y) + " " +
-            "C" +
-            (posnA.x - 100) + "," + (posnA.y) + " " +
-            (posnB.x + 100) + "," + (posnB.y) + " " +
-            (posnB.x      ) + "," + (posnB.y);
+          var dStr = `M${posnA.x},${posnA.y} C${posnA.x - 100},${posnA.y} ${posnB.x + 100},${posnB.y} ${posnB.x},${posnB.y}`;
         } 
         path.setAttribute("d", dStr);
       }
@@ -586,6 +599,8 @@
             parsel_string += indentText(name, 1);
           }
         });
+        // write the parsel string to the filesystem
+        
         return parsel_string;
       }
       
