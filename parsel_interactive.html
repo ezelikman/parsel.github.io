@@ -198,6 +198,7 @@
           <button id="addRow" class="new-button"><div class="icon">+</div></button>
           <!-- <button id="removeRow" class="new-button"><div class="icon">-</div></button> -->
         `;
+        element.setAttribute("id", "element" + elem_id);
         container.appendChild(element);
         element.setAttribute("id", "element" + elem_id);
         xOffset.push(0);
@@ -207,8 +208,7 @@
         element.addEventListener("mousedown", dragStart);
         element.addEventListener("mousedown", highlightClickedElement);
         element.addEventListener("mouseup", dragEnd);
-        element.addEventListener("mouseleave", dragEnd);
-        element.addEventListener("mousemove", drag);
+        document.addEventListener("mousemove", drag);
 
         function addRemoveDefaultText() {
           const elementContent = document.querySelectorAll('.element-content');
@@ -432,22 +432,23 @@
         isDragging = true;
       }
       
-      function drag(e) {
+      function drag(event) {
         if (isDragging) {
-          e.preventDefault();
-          currentX = e.clientX - initialX;
-          currentY = e.clientY - initialY;
+          // find selected_elem_id element{id}
+          // use elem_id
+          elem = document.getElementById(selected_elem_id);
+          currentX = event.clientX - initialX;
+          currentY = event.clientY - initialY;
           
-          selected_elem_id = e.target.id;
           selected_elem_id_num = parseInt(selected_elem_id.replace("element", ""));
 
           xOffset[selected_elem_id_num] = currentX;
           yOffset[selected_elem_id_num] = currentY;
           
-          setTranslate(currentX, currentY, this);
-          if (this.classList.contains("element")) {
+          setTranslate(currentX, currentY, elem);
+          if (elem.classList.contains("element")) {
             allPaths.forEach(path => {
-              if (path[0] == this || path[1] == this) {
+              if (path[0] == elem || path[1] == elem) {
                 updateConnectorPath(path[0], path[1], path[2]);
               }
             });
